@@ -60,12 +60,21 @@
       </repository>
   </repositories>
 
-  <dependencies>
-      <dependency>
-          <groupId>org.spigotmc</groupId>
-          <artifactId>spigot-api</artifactId>
-          <version>1.12-R0.1-SNAPSHOT</version>
-          <scope>provided</scope>
-      </dependency>
+    <dependencies>
+        <!-- SpigotAPI -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+            <scope>provided</scope>
+        </dependency>
   </dependencies>
 </project>
