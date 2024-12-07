@@ -1,0 +1,3 @@
+name: Practice
+version: '${project.version}'
+main: me.emmy.practice.Practice
