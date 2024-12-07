@@ -33,7 +33,7 @@ public class Kit {
      *
      * @param name the name of the kit
      */
-    public Kit (String name) {
+    public Kit(String name) {
         this.name = name;
         this.description = "The " + name + " description.";
         this.disclaimer = "The " + name + " disclaimer.";
