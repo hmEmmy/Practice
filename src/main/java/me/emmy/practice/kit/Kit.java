@@ -39,8 +39,10 @@ public class Kit {
         this.disclaimer = "The " + name + " disclaimer.";
         this.icon = Material.DIAMOND_SWORD;
         this.iconData = 0;
-        this.inventory = new ItemStack[36];
-        this.armor = new ItemStack[4];
+        ItemStack[] inventory = new ItemStack[36];
+        ItemStack[] armor = new ItemStack[4];
+        this.inventory = inventory;
+        this.armor = armor;
         this.kitType = EnumKitType.REGULAR;
         this.enabled = false;
     }

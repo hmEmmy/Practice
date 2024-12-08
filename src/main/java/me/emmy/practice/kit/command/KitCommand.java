@@ -26,10 +26,13 @@ public class KitCommand extends BaseCommand {
                 "&e/kit delete &b<name> &7- Delete a kit",
                 "&e/kit enable &b<name> &7- Enable a kit",
                 "&e/kit disable &b<name> &7- Disable a kit",
+                "&e/kit getinv &b<name> &7- Get the inventory of a kit",
+                "&e/kit setinv &b<name> &7- Set the inventory of a kit",
                 "&e/kit icon &b<name> &7- Set the icon of a kit",
                 "&e/kit description &b<name> &7- Set the description of a kit",
                 "&e/kit disclaimer &b<name> &7- Set the disclaimer of a kit",
-                "&e/kit type &b<name> &7- Set the type of a kit"
+                "&e/kit type &b<name> &7- Set the type of a kit",
+                "&e/kit list &7- List all kits"
         );
 
         message.forEach(msg -> player.sendMessage(CC.translate(msg)));

@@ -3,10 +3,11 @@ package me.emmy.practice;
 import lombok.Getter;
 import me.emmy.practice.api.command.CommandFramework;
 import me.emmy.practice.api.menu.MenuListener;
+import me.emmy.practice.config.ConfigHandler;
 import me.emmy.practice.kit.KitHandler;
 import me.emmy.practice.kit.KitRepository;
 import me.emmy.practice.kit.command.KitCommand;
-import me.emmy.practice.kit.command.impl.KitCreateCommand;
+import me.emmy.practice.kit.command.impl.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -18,6 +19,7 @@ public class Practice extends JavaPlugin {
     private static Practice instance;
 
     private CommandFramework commandFramework;
+    private ConfigHandler configHandler;
     private KitRepository kitRepository;
     private KitHandler kitHandler;
 
@@ -37,6 +39,7 @@ public class Practice extends JavaPlugin {
 
     private void registerManagersAndRepositories() {
         this.commandFramework = new CommandFramework(this);
+        this.configHandler = new ConfigHandler();
         this.kitRepository = new KitRepository();
         this.kitHandler = new KitHandler(this.kitRepository);
     }
@@ -44,6 +47,16 @@ public class Practice extends JavaPlugin {
     private void registerCommands() {
         new KitCommand();
         new KitCreateCommand();
+        new KitDeleteCommand();
+        new KitDescriptionCommand();
+        new KitDisableCommand();
+        new KitDisclaimerCommand();
+        new KitEnableCommand();
+        new KitGetInvCommand();
+        new KitSetInvCommand();
+        new KitIconCommand();
+        new KitListCommand();
+        new KitTypeCommand();
     }
 
     private void registerListeners() {

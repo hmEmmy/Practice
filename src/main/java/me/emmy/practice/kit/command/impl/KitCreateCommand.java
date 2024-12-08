@@ -25,6 +25,11 @@ public class KitCreateCommand extends BaseCommand {
         }
 
         String kitName = args[0];
+        if (Practice.getInstance().getKitRepository().getKit(kitName) != null) {
+            player.sendMessage(CC.translate("&cA kit with that name already exists."));
+            return;
+        }
+
         Practice.getInstance().getKitHandler().createKit(kitName);
         player.sendMessage(CC.translate("&aSuccessfully created a new kit called &b" + kitName + "&a."));
     }

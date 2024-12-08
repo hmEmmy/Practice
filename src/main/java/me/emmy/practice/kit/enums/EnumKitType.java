@@ -23,4 +23,17 @@ public enum EnumKitType {
     EnumKitType(String name) {
         this.name = name;
     }
+
+    /**
+     * Gets the types of the kit.
+     *
+     * @return the types of the kit.
+     */
+    public static String getTypes() {
+        StringBuilder types = new StringBuilder();
+        for (EnumKitType kitType : values()) {
+            types.append(kitType.getName()).append(", ");
+        }
+        return types.substring(0, types.length() - 2);
+    }
 }

@@ -1,6 +1,8 @@
 package me.emmy.practice.kit;
 
 import lombok.Getter;
+import me.emmy.practice.Practice;
+import me.emmy.practice.config.ConfigHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -56,6 +58,9 @@ public class KitRepository {
     public void removeKit(Kit kitName) {
         this.kits.remove(kitName);
 
-        //TODO: remove from config too
+        FileConfiguration config = Practice.getInstance().getConfigHandler().getKitsConfig();
+
+        config.set("kits." + kitName.getName(), null);
+        Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("kits.yml"), config);
     }
 }
