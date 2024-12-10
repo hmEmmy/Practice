@@ -22,8 +22,10 @@ public class ConfigHandler {
     private final Map<String, FileConfiguration> fileConfigurations = new HashMap<>();
 
     private final FileConfiguration kitsConfig;
+    private final FileConfiguration arenasConfig;
 
     private final String[] configFileNames = {
+            "arenas.yml",
             "kits.yml"
     };
 
@@ -36,6 +38,7 @@ public class ConfigHandler {
         }
 
         this.kitsConfig = this.getConfig("kits.yml");
+        this.arenasConfig = this.getConfig("arenas.yml");
     }
 
     /**

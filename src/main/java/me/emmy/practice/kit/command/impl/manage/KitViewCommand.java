@@ -29,7 +29,7 @@ public class KitViewCommand extends BaseCommand {
         }
 
         KitHandler kitHandler = Practice.getInstance().getKitHandler();
-        Kit kit = kitHandler.getKitRepository().getKit(args[0]);
+        Kit kit = kitHandler.getRepository().getKit(args[0]);
         if (kit == null) {
             sender.sendMessage(CC.translate("&cA kit with that name does not exist."));
             return;

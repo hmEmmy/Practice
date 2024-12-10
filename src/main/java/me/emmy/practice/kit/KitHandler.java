@@ -7,6 +7,7 @@ import me.emmy.practice.util.CC;
 import me.emmy.practice.util.InventoryUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -16,16 +17,16 @@ import org.bukkit.configuration.file.FileConfiguration;
  */
 @Getter
 public class KitHandler {
-    private final KitRepository kitRepository;
+    private final KitRepository repository;
     private final FileConfiguration config;
 
     /**
      * Constructor for the KitHandler class.
      *
-     * @param kitRepository the kit repository
+     * @param repository the kit repository
      */
-    public KitHandler(KitRepository kitRepository) {
-        this.kitRepository = kitRepository;
+    public KitHandler(KitRepository repository) {
+        this.repository = repository;
         this.config = Practice.getInstance().getConfigHandler().getKitsConfig();
         this.loadKits();
     }
@@ -34,28 +35,29 @@ public class KitHandler {
      * Loads all the kits from the config.
      */
     public void loadKits() {
-        if (!this.config.contains("kits")) {
+        ConfigurationSection configSection = this.config.getConfigurationSection("kits");
+        if (configSection == null) {
             return;
         }
 
-        for (String key : this.config.getConfigurationSection("kits").getKeys(false)) {
-            Kit kit = new Kit(key);
+        for (String kitName : configSection.getKeys(false)) {
+            Kit kit = new Kit(kitName);
 
-            kit.setEnabled(this.config.getBoolean("kits." + key + ".enabled"));
-            kit.setDisclaimer(this.config.getString("kits." + key + ".disclaimer"));
-            kit.setDescription(this.config.getString("kits." + key + ".description"));
-            kit.setDisplayName(this.config.getString("kits." + key + ".display-name"));
-            kit.setKitType(EnumKitType.valueOf(this.config.getString("kits." + key + ".kit-type")));
-            kit.setIcon(Material.matchMaterial(this.config.getString("kits." + key + ".icon.material")));
-            kit.setIconData(this.config.getInt("kits." + key + ".icon.durability"));
+            kit.setEnabled(this.config.getBoolean("kits." + kitName + ".enabled"));
+            kit.setDisclaimer(this.config.getString("kits." + kitName + ".disclaimer"));
+            kit.setDescription(this.config.getString("kits." + kitName + ".description"));
+            kit.setDisplayName(this.config.getString("kits." + kitName + ".display-name"));
+            kit.setKitType(EnumKitType.valueOf(this.config.getString("kits." + kitName + ".kit-type")));
+            kit.setIcon(Material.matchMaterial(this.config.getString("kits." + kitName + ".icon.material")));
+            kit.setIconData(this.config.getInt("kits." + kitName + ".icon.durability"));
             try {
-                kit.setInventory(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + key + ".inventory")));
-                kit.setArmor(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + key + ".armor")));
+                kit.setInventory(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + kitName + ".inventory")));
+                kit.setArmor(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + kitName + ".armor")));
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage(CC.translate("&cFailed to load kit " + key + " inventory."));
+                Bukkit.getConsoleSender().sendMessage(CC.translate("&cFailed to load kit " + kitName + " inventory."));
             }
 
-            this.kitRepository.addKit(kit);
+            this.repository.addKit(kit);
         }
     }
 
@@ -66,7 +68,7 @@ public class KitHandler {
      */
     public void createKit(String kitName) {
         Kit kit = new Kit(kitName);
-        this.kitRepository.addKit(kit);
+        this.repository.addKit(kit);
         this.saveKit(kit);
     }
 
@@ -87,5 +89,11 @@ public class KitHandler {
         this.config.set("kits." + kit.getName() + ".armor", InventoryUtil.itemStackArrayToBase64(kit.getArmor()));
 
         Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("kits.yml"), this.config);
+    }
+
+    public void saveKits() {
+        for (Kit kit : this.repository.getKits()) {
+            this.saveKit(kit);
+        }
     }
 }

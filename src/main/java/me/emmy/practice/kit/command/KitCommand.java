@@ -4,6 +4,7 @@ import me.emmy.practice.api.command.BaseCommand;
 import me.emmy.practice.api.command.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import me.emmy.practice.util.CC;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -15,10 +16,10 @@ import java.util.List;
  * @date 07/12/2024 - 20:05
  */
 public class KitCommand extends BaseCommand {
-    @Command(name = "kit", permission = "practice.owner")
+    @Command(name = "kit", permission = "practice.owner", inGameOnly = false)
     @Override
     public void onCommand(CommandArgs command) {
-        Player player = command.getPlayer();
+        CommandSender sender = command.getSender();
 
         Arrays.asList(
                 "&b&lKit Commands",
@@ -34,6 +35,6 @@ public class KitCommand extends BaseCommand {
                 "&e/kit displayname &b<name> &6- Set the display name of a kit",
                 "&e/kit type &b<name> &6- Set the type of a kit",
                 "&e/kit list &6- List all kits"
-        ).forEach(line -> player.sendMessage(CC.translate(line)));
+        ).forEach(line -> sender.sendMessage(CC.translate(line)));
     }
 }
