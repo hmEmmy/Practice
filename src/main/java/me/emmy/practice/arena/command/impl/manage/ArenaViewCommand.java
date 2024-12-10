@@ -5,7 +5,7 @@ import me.emmy.practice.api.command.BaseCommand;
 import me.emmy.practice.api.command.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import me.emmy.practice.arena.Arena;
-import me.emmy.practice.arena.ArenaHandler;
+import me.emmy.practice.arena.ArenaRepository;
 import me.emmy.practice.util.CC;
 import org.bukkit.command.CommandSender;
 
@@ -26,9 +26,8 @@ public class ArenaViewCommand extends BaseCommand {
             return;
         }
 
-        ArenaHandler arenaHandler = Practice.getInstance().getArenaRepository();
-
-        Arena arena = arenaHandler.getArenaByName(args[0]);
+        ArenaRepository arenaRepository = Practice.getInstance().getArenaHandler().getRepository();
+        Arena arena = arenaRepository.getArenaByName(args[0]);
         if (arena == null) {
             sender.sendMessage(CC.translate("&6Usage: &e/arena view &b<arenaName>"));
             return;

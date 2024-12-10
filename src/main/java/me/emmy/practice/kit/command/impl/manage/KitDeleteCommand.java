@@ -26,7 +26,7 @@ public class KitDeleteCommand extends BaseCommand {
             return;
         }
 
-        KitRepository kitRepository = Practice.getInstance().getKitRepository();
+        KitRepository kitRepository = Practice.getInstance().getKitHandler().getRepository();
         Kit kit = kitRepository.getKit(args[0]);
         if (kit == null) {
             player.sendMessage(CC.translate("&cA kit with that name does not exist."));

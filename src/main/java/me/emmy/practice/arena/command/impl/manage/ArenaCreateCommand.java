@@ -72,24 +72,9 @@ public class ArenaCreateCommand extends BaseCommand {
                 return;
         }
 
-        arena.setDisplayName(Objects.requireNonNull(getDefaultDisplayName(arenaType)).replace("{arena-name}", arenaName));
+        arena.setDisplayName("&b" + arenaName);
 
         arena.createArena();
         player.sendMessage(CC.translate("&aSuccessfully created a new arena named &b" + arenaName + "&a with type &b" + arenaType.name() + "&a!"));
-    }
-
-    private String getDefaultDisplayName(ArenaType arenaType) {
-        FileConfiguration config = Practice.getInstance().getConfigHandler().getSettingsConfig();
-
-        switch (arenaType) {
-            case SHARED:
-                return config.getString("arena.default-display-name.shared");
-            case STANDALONE:
-                return config.getString("arena.default-display-name.standalone");
-            case FFA:
-                return config.getString("arena.default-display-name.ffa");
-        }
-
-        return null;
     }
 }

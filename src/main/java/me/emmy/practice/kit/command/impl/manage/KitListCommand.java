@@ -18,7 +18,7 @@ public class KitListCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-        KitRepository kitRepository = Practice.getInstance().getKitRepository();
+        KitRepository kitRepository = Practice.getInstance().getKitHandler().getRepository();
 
         player.sendMessage("");
         player.sendMessage(CC.translate("&b&lPractice Kits: &7(Total: &f" + kitRepository.getKits().size() + "&7)"));

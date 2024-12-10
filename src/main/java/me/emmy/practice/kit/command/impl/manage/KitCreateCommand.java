@@ -25,7 +25,7 @@ public class KitCreateCommand extends BaseCommand {
         }
 
         String kitName = args[0];
-        if (Practice.getInstance().getKitRepository().getKit(kitName) != null) {
+        if (Practice.getInstance().getKitHandler().getRepository().getKit(kitName) != null) {
             player.sendMessage(CC.translate("&cA kit with that name already exists."));
             return;
         }

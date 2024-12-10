@@ -48,7 +48,7 @@ public class ArenaRemoveKitCommand extends BaseCommand {
             return;
         }
 
-        if (Practice.getInstance().getKitRepository().getKit(kitName) == null) {
+        if (Practice.getInstance().getKitHandler().getRepository().getKit(kitName) == null) {
             player.sendMessage(CC.translate("&cA kit with that name does not exist!"));
             return;
         }
