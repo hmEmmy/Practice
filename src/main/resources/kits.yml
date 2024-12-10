@@ -1,9 +1,13 @@
 kits:
   Classic:
-    description: "&7Classic PvP Kit"
+    enabled: true
     disclaimer: "&7Diamond Gear (Sword, Armor, Bow, Arrows)"
-    icon: DIAMOND_SWORD
-    iconData: 0
+    description: "&7Classic PvP Kit"
+    display-name: "&7Classic"
+    kit-type: REGULAR
+    icon:
+      material: DIAMOND_SWORD
+      durability: 0
     inventory: "rO0ABXcEAAAAJHNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFw\r\
       \ndAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFi\r\
       \nbGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAlsABGtleXN0ABNbTGphdmEvbGFuZy9PYmpl\r\
@@ -26,5 +30,3 @@ kits:
       \nAnEAfgALdAAQRElBTU9ORF9MRUdHSU5HU3NxAH4AAHNxAH4AA3VxAH4ABgAAAAJxAH4ACHEAfgAJ\r\
       \ndXEAfgAGAAAAAnEAfgALdAASRElBTU9ORF9DSEVTVFBMQVRFc3EAfgAAc3EAfgADdXEAfgAGAAAA\r\
       \nAnEAfgAIcQB+AAl1cQB+AAYAAAACcQB+AAt0AA5ESUFNT05EX0hFTE1FVA==\r\n"
-    kitType: REGULAR
-    enabled: true

@@ -7,7 +7,15 @@ import me.emmy.practice.config.ConfigHandler;
 import me.emmy.practice.kit.KitHandler;
 import me.emmy.practice.kit.KitRepository;
 import me.emmy.practice.kit.command.KitCommand;
-import me.emmy.practice.kit.command.impl.*;
+import me.emmy.practice.kit.command.impl.manage.KitCreateCommand;
+import me.emmy.practice.kit.command.impl.manage.KitDeleteCommand;
+import me.emmy.practice.kit.command.impl.data.*;
+import me.emmy.practice.kit.command.impl.inventory.KitGetInvCommand;
+import me.emmy.practice.kit.command.impl.inventory.KitSetInvCommand;
+import me.emmy.practice.kit.command.impl.manage.KitListCommand;
+import me.emmy.practice.kit.command.impl.manage.KitViewCommand;
+import me.emmy.practice.kit.command.impl.toggle.KitDisableCommand;
+import me.emmy.practice.kit.command.impl.toggle.KitEnableCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -56,7 +64,9 @@ public class Practice extends JavaPlugin {
         new KitSetInvCommand();
         new KitIconCommand();
         new KitListCommand();
+        new KitDisplayNameCommand();
         new KitTypeCommand();
+        new KitViewCommand();
     }
 
     private void registerListeners() {

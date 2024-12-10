@@ -1,4 +1,4 @@
-package me.emmy.practice.kit.command.impl;
+package me.emmy.practice.kit.command.impl.inventory;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
@@ -9,22 +9,20 @@ import me.emmy.practice.kit.KitHandler;
 import me.emmy.practice.util.CC;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
 /**
  * @author Emmy
  * @project Practice
- * @date 08/12/2024 - 10:38
+ * @date 08/12/2024 - 09:59
  */
-public class KitDisclaimerCommand extends BaseCommand {
-    @Command(name = "kit.disclaimer", permission = "practice.kit.disclaimer")
+public class KitGetInvCommand extends BaseCommand {
+    @Command(name = "kit.getinv", permission = "practice.kit.getinv")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/kit disclaimer &b<kitName> <disclaimer>"));
+            player.sendMessage(CC.translate("&6Usage: &e/kit getinv &b<kitName>"));
             return;
         }
 
@@ -35,10 +33,8 @@ public class KitDisclaimerCommand extends BaseCommand {
             return;
         }
 
-        String disclaimer = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-        kit.setDisclaimer(disclaimer);
-        kitHandler.saveKit(kit);
-
-        player.sendMessage(CC.translate("&aSuccessfully set the disclaimer for the &b" + kit.getName() + "&a kit to &b:\n &r" + disclaimer));
+        player.getInventory().setContents(kit.getInventory());
+        player.getInventory().setArmorContents(kit.getArmor());
+        player.sendMessage(CC.translate("&aSuccessfully set your inventory to the kit &b" + kit.getName() + "&a."));
     }
 }

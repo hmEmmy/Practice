@@ -1,39 +1,40 @@
-package me.emmy.practice.kit.command.impl;
+package me.emmy.practice.kit.command.impl.toggle;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
 import me.emmy.practice.api.command.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import me.emmy.practice.kit.Kit;
-import me.emmy.practice.kit.KitRepository;
+import me.emmy.practice.kit.KitHandler;
 import me.emmy.practice.util.CC;
 import org.bukkit.entity.Player;
 
 /**
  * @author Emmy
  * @project Practice
- * @date 08/12/2024 - 09:46
+ * @date 08/12/2024 - 10:34
  */
-public class KitDeleteCommand extends BaseCommand {
-    @Command(name = "kit.delete", permission = "practice.kit.delete")
+public class KitEnableCommand extends BaseCommand {
+    @Command(name = "kit.enable", permission = "practice.kit.enable")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/kit delete &b<kitName>"));
+            player.sendMessage(CC.translate("&6Usage: &e/kit enable &b<kitName>"));
             return;
         }
 
-        KitRepository kitRepository = Practice.getInstance().getKitRepository();
-        Kit kit = kitRepository.getKit(args[0]);
+        KitHandler kitHandler = Practice.getInstance().getKitHandler();
+        Kit kit = kitHandler.getKitRepository().getKit(args[0]);
         if (kit == null) {
             player.sendMessage(CC.translate("&cA kit with that name does not exist."));
             return;
         }
 
-        kitRepository.removeKit(kit);
-        player.sendMessage(CC.translate("&aSuccessfully deleted the kit &b" + kit.getName() + "&a."));
+        kit.setEnabled(true);
+        kitHandler.saveKit(kit);
+        player.sendMessage(CC.translate("&aSuccessfully enabled the kit &b" + kit.getName() + "&a."));
     }
 }

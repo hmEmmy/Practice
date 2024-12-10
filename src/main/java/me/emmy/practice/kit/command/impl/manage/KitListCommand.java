@@ -1,10 +1,9 @@
-package me.emmy.practice.kit.command.impl;
+package me.emmy.practice.kit.command.impl.manage;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
 import me.emmy.practice.api.command.Command;
 import me.emmy.practice.api.command.CommandArgs;
-import me.emmy.practice.kit.KitHandler;
 import me.emmy.practice.kit.KitRepository;
 import me.emmy.practice.util.CC;
 import org.bukkit.entity.Player;
@@ -22,9 +21,8 @@ public class KitListCommand extends BaseCommand {
         KitRepository kitRepository = Practice.getInstance().getKitRepository();
 
         player.sendMessage("");
-        player.sendMessage(CC.translate("&bKits:"));
-        kitRepository.getKits().forEach(kit -> player.sendMessage(CC.translate("&b" + kit.getName() + " &7- &b" + kit.getKitType().name() + "&7(" + (kit.isEnabled() ? "&a&lEnabled" : "&c&lDisabled")) + "&7)"));
-        player.sendMessage(CC.translate("&bTotal Kits: &7" + kitRepository.getKits().size()));
+        player.sendMessage(CC.translate("&b&lPractice Kits: &7(Total: &f" + kitRepository.getKits().size() + "&7)"));
+        kitRepository.getKits().forEach(kit -> player.sendMessage(CC.translate(" &f▢ &b" + kit.getName() + " &7- &b" + kit.getKitType().getName() + " &7| " + (kit.isEnabled() ? "&aEnabled" : "&cDisabled"))));
         player.sendMessage("");
     }
 }

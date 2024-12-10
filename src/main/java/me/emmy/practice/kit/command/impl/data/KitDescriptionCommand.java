@@ -1,4 +1,4 @@
-package me.emmy.practice.kit.command.impl;
+package me.emmy.practice.kit.command.impl.data;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
@@ -6,7 +6,6 @@ import me.emmy.practice.api.command.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import me.emmy.practice.kit.Kit;
 import me.emmy.practice.kit.KitHandler;
-import me.emmy.practice.kit.enums.EnumKitType;
 import me.emmy.practice.util.CC;
 import org.bukkit.entity.Player;
 
@@ -15,15 +14,15 @@ import org.bukkit.entity.Player;
  * @project Practice
  * @date 08/12/2024 - 10:38
  */
-public class KitTypeCommand extends BaseCommand {
-    @Command(name = "kit.type", permission = "practice.kit.type")
+public class KitDescriptionCommand extends BaseCommand {
+    @Command(name = "kit.description", permission = "practice.kit.description")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/kit type &b<kitName> <type>"));
+            player.sendMessage(CC.translate("&6Usage: &e/kit description &b<kitName> <description>"));
             return;
         }
 
@@ -34,16 +33,9 @@ public class KitTypeCommand extends BaseCommand {
             return;
         }
 
-        EnumKitType kitType;
-        try {
-            kitType = EnumKitType.valueOf(args[1].toUpperCase());
-        } catch (IllegalArgumentException e) {
-            player.sendMessage(CC.translate("&cInvalid kit type. Available types: &b" + EnumKitType.getTypes()));
-            return;
-        }
-
-        kit.setKitType(kitType);
+        String description = String.join(" ", args);
+        kit.setDescription(description);
         kitHandler.saveKit(kit);
-        player.sendMessage(CC.translate("&aSuccessfully set the type for the &b" + kit.getName() + "&a kit to &b" + kitType.name() + "&a."));
+        player.sendMessage(CC.translate("&aSuccessfully set the description for the &b" + kit.getName() + "&a kit to &b:\n &r" + description));
     }
 }

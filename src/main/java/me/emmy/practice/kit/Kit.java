@@ -15,8 +15,9 @@ import org.bukkit.inventory.ItemStack;
 @Setter
 public class Kit {
     private String name;
-    private String description;
     private String disclaimer;
+    private String description;
+    private String displayName;
 
     private Material icon;
     private int iconData;
@@ -34,16 +35,17 @@ public class Kit {
      * @param name the name of the kit
      */
     public Kit(String name) {
+        this.enabled = false;
         this.name = name;
-        this.description = "The " + name + " description.";
         this.disclaimer = "The " + name + " disclaimer.";
+        this.description = "The " + name + " description.";
+        this.displayName = "&7" + name;
+        this.kitType = EnumKitType.REGULAR;
         this.icon = Material.DIAMOND_SWORD;
         this.iconData = 0;
         ItemStack[] inventory = new ItemStack[36];
         ItemStack[] armor = new ItemStack[4];
         this.inventory = inventory;
         this.armor = armor;
-        this.kitType = EnumKitType.REGULAR;
-        this.enabled = false;
     }
 }

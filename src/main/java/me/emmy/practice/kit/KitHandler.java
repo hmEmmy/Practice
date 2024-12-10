@@ -41,18 +41,19 @@ public class KitHandler {
         for (String key : this.config.getConfigurationSection("kits").getKeys(false)) {
             Kit kit = new Kit(key);
 
-            kit.setDescription(this.config.getString("kits." + key + ".description"));
+            kit.setEnabled(this.config.getBoolean("kits." + key + ".enabled"));
             kit.setDisclaimer(this.config.getString("kits." + key + ".disclaimer"));
-            kit.setIcon(Material.matchMaterial(this.config.getString("kits." + key + ".icon")));
-            kit.setIconData(this.config.getInt("kits." + key + ".iconData"));
+            kit.setDescription(this.config.getString("kits." + key + ".description"));
+            kit.setDisplayName(this.config.getString("kits." + key + ".display-name"));
+            kit.setKitType(EnumKitType.valueOf(this.config.getString("kits." + key + ".kit-type")));
+            kit.setIcon(Material.matchMaterial(this.config.getString("kits." + key + ".icon.material")));
+            kit.setIconData(this.config.getInt("kits." + key + ".icon.durability"));
             try {
-            kit.setInventory(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + key + ".inventory")));
-            kit.setArmor(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + key + ".armor")));
+                kit.setInventory(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + key + ".inventory")));
+                kit.setArmor(InventoryUtil.itemStackArrayFromBase64(this.config.getString("kits." + key + ".armor")));
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage(CC.translate("&cFailed to load kit " + key + " inventory."));
             }
-            kit.setKitType(EnumKitType.valueOf(this.config.getString("kits." + key + ".kitType")));
-            kit.setEnabled(this.config.getBoolean("kits." + key + ".enabled"));
 
             this.kitRepository.addKit(kit);
         }
@@ -75,14 +76,15 @@ public class KitHandler {
      * @param kit the kit to save
      */
     public void saveKit(Kit kit) {
-        this.config.set("kits." + kit.getName() + ".description", kit.getDescription());
+        this.config.set("kits." + kit.getName() + ".enabled", kit.isEnabled());
         this.config.set("kits." + kit.getName() + ".disclaimer", kit.getDisclaimer());
-        this.config.set("kits." + kit.getName() + ".icon", kit.getIcon().name());
-        this.config.set("kits." + kit.getName() + ".iconData", kit.getIconData());
+        this.config.set("kits." + kit.getName() + ".description", kit.getDescription());
+        this.config.set("kits." + kit.getName() + ".display-name", kit.getDisplayName());
+        this.config.set("kits." + kit.getName() + ".kit-type", kit.getKitType().name());
+        this.config.set("kits." + kit.getName() + ".icon.material", kit.getIcon().name());
+        this.config.set("kits." + kit.getName() + ".icon.durability", kit.getIconData());
         this.config.set("kits." + kit.getName() + ".inventory", InventoryUtil.itemStackArrayToBase64(kit.getInventory()));
         this.config.set("kits." + kit.getName() + ".armor", InventoryUtil.itemStackArrayToBase64(kit.getArmor()));
-        this.config.set("kits." + kit.getName() + ".kitType", kit.getKitType().name());
-        this.config.set("kits." + kit.getName() + ".enabled", kit.isEnabled());
 
         Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("kits.yml"), this.config);
     }

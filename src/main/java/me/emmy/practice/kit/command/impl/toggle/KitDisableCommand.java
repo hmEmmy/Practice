@@ -1,4 +1,4 @@
-package me.emmy.practice.kit.command.impl;
+package me.emmy.practice.kit.command.impl.toggle;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
@@ -12,17 +12,17 @@ import org.bukkit.entity.Player;
 /**
  * @author Emmy
  * @project Practice
- * @date 08/12/2024 - 09:59
+ * @date 08/12/2024 - 10:34
  */
-public class KitGetInvCommand extends BaseCommand {
-    @Command(name = "kit.getinv", permission = "practice.kit.getinv")
+public class KitDisableCommand extends BaseCommand {
+    @Command(name = "kit.disable", permission = "practice.kit.disable")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/kit getinv &b<kitName>"));
+            player.sendMessage(CC.translate("&6Usage: &e/kit disable &b<kitName>"));
             return;
         }
 
@@ -33,8 +33,8 @@ public class KitGetInvCommand extends BaseCommand {
             return;
         }
 
-        player.getInventory().setContents(kit.getInventory());
-        player.getInventory().setArmorContents(kit.getArmor());
-        player.sendMessage(CC.translate("&aSuccessfully set your inventory to the kit &b" + kit.getName() + "&a."));
+        kit.setEnabled(false);
+        kitHandler.saveKit(kit);
+        player.sendMessage(CC.translate("&aSuccessfully disabled the kit &b" + kit.getName() + "&a."));
     }
 }

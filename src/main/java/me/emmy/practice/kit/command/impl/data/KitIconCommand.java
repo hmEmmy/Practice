@@ -1,4 +1,4 @@
-package me.emmy.practice.kit.command.impl;
+package me.emmy.practice.kit.command.impl.data;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;

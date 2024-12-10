@@ -1,4 +1,4 @@
-package me.emmy.practice.kit.command.impl;
+package me.emmy.practice.kit.command.impl.data;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
@@ -9,20 +9,22 @@ import me.emmy.practice.kit.KitHandler;
 import me.emmy.practice.util.CC;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 /**
  * @author Emmy
  * @project Practice
- * @date 08/12/2024 - 10:34
+ * @date 10/12/2024 - 22:54
  */
-public class KitDisableCommand extends BaseCommand {
-    @Command(name = "kit.disable", permission = "practice.kit.disable")
+public class KitDisplayNameCommand extends BaseCommand {
+    @Command(name = "kit.displayname", permission = "practice.kit.setdisplayname")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
-        if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/kit disable &b<kitName>"));
+        if (args.length < 2) {
+            player.sendMessage(CC.translate("&6Usage: &e/kit setdisplayname &b<kitName> <displayName>"));
             return;
         }
 
@@ -33,8 +35,10 @@ public class KitDisableCommand extends BaseCommand {
             return;
         }
 
-        kit.setEnabled(false);
+        String displayName = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+        kit.setDisplayName(displayName);
         kitHandler.saveKit(kit);
-        player.sendMessage(CC.translate("&aSuccessfully disabled the kit &b" + kit.getName() + "&a."));
+
+        player.sendMessage(CC.translate("&aSuccessfully set the display name for the &b" + kit.getName() + "&a kit to &b" + displayName + "&a."));
     }
 }
