@@ -2,7 +2,10 @@ package me.emmy.practice.api.assemble;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.emmy.practice.api.assemble.enums.AssembleStyle;
 import me.emmy.practice.api.assemble.events.AssembleBoardCreateEvent;
+import me.emmy.practice.api.assemble.interfaces.AssembleAdapter;
+import me.emmy.practice.api.assemble.listener.AssembleListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -15,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Getter @Setter
 public class Assemble {
-
 	private final JavaPlugin plugin;
 
 	private AssembleAdapter adapter;
@@ -26,12 +28,12 @@ public class Assemble {
 	private Map<UUID, AssembleBoard> boards;
 
 	private long ticks = 2;
-	private boolean hook = false, debugMode = true, callEvents = true;
+	private boolean hooked = false, debugMode = true, callEvents = true;
 
 	private final ChatColor[] chatColorCache = ChatColor.values();
 
 	/**
-	 * Assemble.
+	 * Constructor for the Assemble class.
 	 *
 	 * @param plugin instance.
 	 * @param adapter that is being provided.
@@ -52,20 +54,15 @@ public class Assemble {
 	 * Setup Assemble.
 	 */
 	public void setup() {
-		// Register Events.
 		this.listeners = new AssembleListener(this);
-		this.plugin.getServer().getPluginManager().registerEvents(listeners, this.plugin);
+		this.plugin.getServer().getPluginManager().registerEvents(this.listeners, this.plugin);
 
-		// Ensure that the thread has stopped running.
 		if (this.thread != null) {
 			this.thread.stop();
 			this.thread = null;
 		}
 
-		// Register new boards for existing online players.
 		for (Player player : this.getPlugin().getServer().getOnlinePlayers()) {
-
-			// Call Events if enabled.
 			if (this.isCallEvents()) {
 				AssembleBoardCreateEvent createEvent = new AssembleBoardCreateEvent(player);
 
@@ -78,24 +75,18 @@ public class Assemble {
 			getBoards().putIfAbsent(player.getUniqueId(), new AssembleBoard(player, this));
 		}
 
-		// Start Thread.
 		this.thread = new AssembleThread(this);
 	}
 
-	/**
-	 * Cleanup Assemble.
-	 */
 	public void cleanup() {
-		// Stop thread.
 		if (this.thread != null) {
 			this.thread.stop();
 			this.thread = null;
 		}
 
-		// Unregister listeners.
-		if (listeners != null) {
-			HandlerList.unregisterAll(listeners);
-			listeners = null;
+		if (this.listeners != null) {
+			HandlerList.unregisterAll(this.listeners);
+			this.listeners = null;
 		}
 
 		// Destroy player scoreboards.
@@ -106,9 +97,8 @@ public class Assemble {
 				continue;
 			}
 
-			getBoards().remove(uuid);
+			this.boards.remove(uuid);
 			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 	}
-
 }

@@ -3,8 +3,12 @@ package me.emmy.practice.kit;
 import lombok.Getter;
 import lombok.Setter;
 import me.emmy.practice.kit.enums.EnumKitType;
+import me.emmy.practice.kit.settings.KitSetting;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Emmy
@@ -29,6 +33,8 @@ public class Kit {
 
     private boolean enabled;
 
+    private final List<KitSetting> kitSettings;
+
     /**
      * Constructor for the Kit class.
      *
@@ -47,5 +53,45 @@ public class Kit {
         ItemStack[] armor = new ItemStack[4];
         this.inventory = inventory;
         this.armor = armor;
+        this.kitSettings = new ArrayList<>();
+    }
+
+    /**
+     * Method to add a kit setting.
+     *
+     * @param kitSetting The kit setting to add.
+     */
+    public void addKitSetting(KitSetting kitSetting) {
+        kitSettings.add(kitSetting);
+    }
+
+    /**
+     * Method to check if a setting is enabled.
+     *
+     * @param name The name of the setting.
+     * @return Whether the setting is enabled.
+     */
+    public boolean isSettingEnabled(String name) {
+        KitSetting kitSetting = kitSettings.stream()
+                .filter(setting -> setting.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+
+        return kitSetting != null && kitSetting.isEnabled();
+    }
+
+    /**
+     * Method to check if a setting is enabled.
+     *
+     * @param clazz The class of the setting.
+     * @return Whether the setting is enabled.
+     */
+    public boolean isSettingEnabled(Class<? extends KitSetting> clazz) {
+        KitSetting kitSetting = kitSettings.stream()
+                .filter(setting -> setting.getClass().equals(clazz))
+                .findFirst()
+                .orElse(null);
+
+        return kitSetting != null && kitSetting.isEnabled();
     }
 }

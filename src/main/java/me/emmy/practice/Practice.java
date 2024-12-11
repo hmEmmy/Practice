@@ -1,32 +1,32 @@
 package me.emmy.practice;
 
 import lombok.Getter;
-import me.emmy.practice.api.command.CommandFramework;
-import me.emmy.practice.api.menu.MenuListener;
-import me.emmy.practice.arena.ArenaHandler;
-import me.emmy.practice.arena.ArenaRepository;
-import me.emmy.practice.arena.command.ArenaCommand;
-import me.emmy.practice.arena.command.impl.data.*;
-import me.emmy.practice.arena.command.impl.kit.ArenaAddKitCommand;
-import me.emmy.practice.arena.command.impl.kit.ArenaKitListCommand;
-import me.emmy.practice.arena.command.impl.kit.ArenaRemoveKitCommand;
-import me.emmy.practice.arena.command.impl.manage.*;
-import me.emmy.practice.arena.command.impl.storage.ArenaSaveAllCommand;
+
+import me.emmy.practice.api.command.*;
+import me.emmy.practice.arena.*;
+import me.emmy.practice.kit.*;
+
 import me.emmy.practice.arena.listener.ArenaListener;
+import me.emmy.practice.api.menu.MenuListener;
 import me.emmy.practice.config.ConfigHandler;
-import me.emmy.practice.kit.KitHandler;
-import me.emmy.practice.kit.KitRepository;
-import me.emmy.practice.kit.command.KitCommand;
-import me.emmy.practice.kit.command.impl.manage.KitCreateCommand;
-import me.emmy.practice.kit.command.impl.manage.KitDeleteCommand;
+
+import me.emmy.practice.arena.command.*;
+import me.emmy.practice.arena.command.impl.kit.*;
+import me.emmy.practice.arena.command.impl.data.*;
+import me.emmy.practice.arena.command.impl.manage.*;
+import me.emmy.practice.arena.command.impl.storage.*;
+
+import me.emmy.practice.kit.command.*;
 import me.emmy.practice.kit.command.impl.data.*;
-import me.emmy.practice.kit.command.impl.inventory.KitGetInvCommand;
-import me.emmy.practice.kit.command.impl.inventory.KitSetInvCommand;
-import me.emmy.practice.kit.command.impl.manage.KitListCommand;
-import me.emmy.practice.kit.command.impl.manage.KitViewCommand;
-import me.emmy.practice.kit.command.impl.toggle.KitDisableCommand;
-import me.emmy.practice.kit.command.impl.toggle.KitEnableCommand;
+import me.emmy.practice.kit.command.impl.inventory.*;
+import me.emmy.practice.kit.command.impl.manage.*;
+import me.emmy.practice.kit.command.impl.settings.KitSetSettingCommand;
+import me.emmy.practice.kit.command.impl.settings.KitSettingsCommand;
+import me.emmy.practice.kit.command.impl.toggle.*;
+
+import me.emmy.practice.kit.settings.KitSettingRepository;
 import me.emmy.practice.util.ServerUtil;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -41,12 +41,13 @@ public class Practice extends JavaPlugin {
     private ConfigHandler configHandler;
     private KitHandler kitHandler;
     private ArenaHandler arenaHandler;
+    private KitSettingRepository kitSettingRepository;
 
     @Override
     public void onEnable() {
         instance = this;
 
-        this.registerManagersAndRepositories();
+        this.initializeManagers();
         this.registerCommands();
         this.registerListeners();
 
@@ -59,14 +60,20 @@ public class Practice extends JavaPlugin {
         ServerUtil.clearEntities();
 
         this.kitHandler.saveKits();
-        this.arenaHandler.saveArenas();
+        this.arenaHandler.getRepository().getArenas().forEach(Arena::saveArena);
     }
 
-    private void registerManagersAndRepositories() {
+    private void initializeManagers() {
         this.commandFramework = new CommandFramework(this);
         this.configHandler = new ConfigHandler();
-        this.kitHandler = new KitHandler(new KitRepository());
-        this.arenaHandler = new ArenaHandler(new ArenaRepository());
+
+        this.kitSettingRepository = new KitSettingRepository();
+
+        KitRepository kitRepository = new KitRepository();
+        this.kitHandler = new KitHandler(kitRepository);
+
+        ArenaRepository arenaRepository = new ArenaRepository();
+        this.arenaHandler = new ArenaHandler(arenaRepository);
     }
 
     private void registerCommands() {
@@ -84,6 +91,8 @@ public class Practice extends JavaPlugin {
         new KitDisplayNameCommand();
         new KitTypeCommand();
         new KitViewCommand();
+        new KitSetSettingCommand();
+        new KitSettingsCommand();
 
         new ArenaCommand();
         new ArenaSetSafeZoneCommand();

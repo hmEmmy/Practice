@@ -2,7 +2,7 @@ package me.emmy.practice.arena.impl;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.arena.Arena;
-import me.emmy.practice.arena.ArenaType;
+import me.emmy.practice.arena.enums.EnumArenaType;
 import me.emmy.practice.util.LocationUtil;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,8 +25,8 @@ public class SharedArena extends Arena {
     }
 
     @Override
-    public ArenaType getType() {
-        return ArenaType.SHARED;
+    public EnumArenaType getType() {
+        return EnumArenaType.SHARED;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SharedArena extends Arena {
         config.set(name + ".pos2", LocationUtil.serialize(getPos2()));
         config.set(name + ".kits", getKits());
         config.set(name + ".enabled", isEnabled());
-        config.set(name + ".displayName", getDisplayName());
+        config.set(name + ".display-name", getDisplayName());
 
         Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("storage/arenas.yml"), config);
     }

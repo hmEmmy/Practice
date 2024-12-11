@@ -1,10 +1,10 @@
 package me.emmy.practice.arena.command.impl.data;
 
 import me.emmy.practice.Practice;
-import me.emmy.practice.arena.ArenaType;
+import me.emmy.practice.arena.enums.EnumArenaType;
 import me.emmy.practice.util.CC;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import org.bukkit.entity.Player;
 
@@ -33,7 +33,7 @@ public class ArenaSetSafeZoneCommand extends BaseCommand {
             return;
         }
 
-        if (Practice.getInstance().getArenaHandler().getRepository().getArenaByName(arenaName).getType() != ArenaType.FFA) {
+        if (Practice.getInstance().getArenaHandler().getRepository().getArenaByName(arenaName).getType() != EnumArenaType.FFA) {
             player.sendMessage(CC.translate("&cYou can only set the safezone for Free-For-All arenas!"));
             return;
         }

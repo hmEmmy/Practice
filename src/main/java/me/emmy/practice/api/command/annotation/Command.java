@@ -1,4 +1,4 @@
-package me.emmy.practice.api.command;
+package me.emmy.practice.api.command.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

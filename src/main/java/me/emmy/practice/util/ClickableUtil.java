@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 /**
  * @author Emmy
- * @project Alley
+ * @project Practice
  * @date 08/10/2024 - 20:16
  */
 @UtilityClass

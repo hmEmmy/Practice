@@ -1,16 +1,12 @@
 package me.emmy.practice.arena.command;
 
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
-import me.emmy.practice.api.command.Completer;
 import me.emmy.practice.util.CC;
 import me.emmy.practice.util.ClickableUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Emmy

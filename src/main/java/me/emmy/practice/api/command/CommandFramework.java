@@ -1,5 +1,7 @@
 package me.emmy.practice.api.command;
 
+import me.emmy.practice.api.command.annotation.Command;
+import me.emmy.practice.api.command.annotation.Completer;
 import me.emmy.practice.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

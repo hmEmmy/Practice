@@ -25,8 +25,8 @@ public class ConfigHandler {
     private final FileConfiguration arenasConfig;
 
     private final String[] configFileNames = {
-            "arenas.yml",
-            "kits.yml"
+            "storage/arenas.yml",
+            "storage/kits.yml"
     };
 
     /**
@@ -34,11 +34,11 @@ public class ConfigHandler {
      */
     public ConfigHandler() {
         for (String fileName : this.configFileNames) {
-            loadConfig(fileName);
+            this.loadConfig(fileName);
         }
 
-        this.kitsConfig = this.getConfig("kits.yml");
-        this.arenasConfig = this.getConfig("arenas.yml");
+        this.kitsConfig = this.getConfig("storage/kits.yml");
+        this.arenasConfig = this.getConfig("storage/arenas.yml");
     }
 
     /**

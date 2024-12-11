@@ -2,10 +2,11 @@ package me.emmy.practice.kit.command.impl.manage;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import me.emmy.practice.kit.Kit;
 import me.emmy.practice.kit.KitHandler;
+import me.emmy.practice.kit.settings.KitSetting;
 import me.emmy.practice.util.CC;
 import org.bukkit.command.CommandSender;
 
@@ -35,21 +36,15 @@ public class KitViewCommand extends BaseCommand {
             return;
         }
 
-        //String inventory = Arrays.stream(kit.getInventory()).map(item -> item.getType().name()).reduce((a, b) -> a + ", " + b).orElse("None");
-        //String armor = Arrays.stream(kit.getArmor()).map(item -> item.getType().name()).reduce((a, b) -> a + ", " + b).orElse("None");
-
-        Arrays.asList(
-                "&b&lKit Information &7(&3" + kit.getKitType().name() + "&7)",
-                " > &bName: &f" + kit.getName(),
-                " > &bDisplay Name: &f" + kit.getDisplayName(),
-                " > &bDisclaimer: &f" + kit.getDisclaimer(),
-                " > &bEnabled: &f" + kit.isEnabled(),
-                " > &bIcon: &f" + kit.getIcon().toString().toLowerCase(),
-                " > &bIcon Durability: &f" + kit.getIconData()
-                /*" > &bInventory:",
-                "   - &f" + inventory,
-                " > &bArmor:",
-                "   - &f" + armor*/
-        ).forEach(line -> sender.sendMessage(CC.translate(line)));
+        sender.sendMessage("");
+        sender.sendMessage(CC.translate("&b&lKit " + kit.getName() +  " &f(" + (kit.isEnabled() ? "&aEnabled" : "&cDisabled") + "&f)"));
+        sender.sendMessage(CC.translate(" &f● &bName: &f" + kit.getName()));
+        sender.sendMessage(CC.translate(" &f● &bIcon: &f" + kit.getIcon().name().toLowerCase() + " &7(" + kit.getIconData() + ")"));
+        sender.sendMessage(CC.translate(" &f● &bDisplay Name: &f" + kit.getDisplayName()));
+        sender.sendMessage(CC.translate(" &f● &bDescription: &f" + kit.getDescription()));
+        sender.sendMessage(CC.translate(" &f● &bDisclaimer: &f" + kit.getDisclaimer()));
+        sender.sendMessage(CC.translate(" &f● &bSettings:"));
+        kit.getKitSettings().forEach(setting -> sender.sendMessage(CC.translate("  &f- &b" + setting.getName() + " &f(" + (setting.isEnabled() ? "&aEnabled" : "&cDisabled") + "&f)")));
+        sender.sendMessage("");
     }
 }

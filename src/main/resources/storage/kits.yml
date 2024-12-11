@@ -30,3 +30,16 @@ kits:
       \nAnEAfgALdAAQRElBTU9ORF9MRUdHSU5HU3NxAH4AAHNxAH4AA3VxAH4ABgAAAAJxAH4ACHEAfgAJ\r\
       \ndXEAfgAGAAAAAnEAfgALdAASRElBTU9ORF9DSEVTVFBMQVRFc3EAfgAAc3EAfgADdXEAfgAGAAAA\r\
       \nAnEAfgAIcQB+AAl1cQB+AAYAAAACcQB+AAt0AA5ESUFNT05EX0hFTE1FVA==\r\n"
+    settings:
+      Build: false
+      Ranked: true
+      Boxing: false
+      Sumo: false
+      Spleef: false
+      DenyMovement: false
+      Parkour: false
+      Lives: false
+      NoDamage: false
+      NoHunger: false
+      BattleRush: false
+      StickFight: false

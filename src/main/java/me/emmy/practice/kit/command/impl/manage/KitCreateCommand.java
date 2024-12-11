@@ -2,8 +2,10 @@ package me.emmy.practice.kit.command.impl.manage;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
+import me.emmy.practice.kit.Kit;
+import me.emmy.practice.kit.KitHandler;
 import me.emmy.practice.util.CC;
 import org.bukkit.entity.Player;
 
@@ -25,12 +27,14 @@ public class KitCreateCommand extends BaseCommand {
         }
 
         String kitName = args[0];
-        if (Practice.getInstance().getKitHandler().getRepository().getKit(kitName) != null) {
+        KitHandler kitHandler = Practice.getInstance().getKitHandler();
+        Kit kit = kitHandler.getRepository().getKit(kitName);
+        if (kit != null) {
             player.sendMessage(CC.translate("&cA kit with that name already exists."));
             return;
         }
 
-        Practice.getInstance().getKitHandler().createKit(kitName);
+        kitHandler.createKit(kitName);
         player.sendMessage(CC.translate("&aSuccessfully created a new kit called &b" + kitName + "&a."));
     }
 }

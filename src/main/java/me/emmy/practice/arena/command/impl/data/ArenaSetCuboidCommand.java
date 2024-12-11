@@ -1,13 +1,13 @@
 package me.emmy.practice.arena.command.impl.data;
 
 import me.emmy.practice.Practice;
-import me.emmy.practice.arena.ArenaType;
+import me.emmy.practice.arena.enums.EnumArenaType;
 import me.emmy.practice.arena.selection.ArenaSelection;
 import me.emmy.practice.util.CC;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
-import me.emmy.practice.api.command.Completer;
+import me.emmy.practice.api.command.annotation.Completer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class ArenaSetCuboidCommand extends BaseCommand {
             return;
         }
 
-        if (Practice.getInstance().getArenaHandler().getRepository().getArenaByName(arenaName).getType() == ArenaType.FFA) {
+        if (Practice.getInstance().getArenaHandler().getRepository().getArenaByName(arenaName).getType() == EnumArenaType.FFA) {
             player.sendMessage(CC.translate("&cYou cannot set cuboids for Free-For-All arenas! You must use: &4/arena setsafezone pos1/pos2&c."));
             return;
         }

@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class AssembleThread extends Thread {
-
     private final Assemble assemble;
 
     /**
@@ -27,7 +26,7 @@ public class AssembleThread extends Thread {
         while(true) {
             try {
                 tick();
-                sleep(assemble.getTicks() * 50);
+                sleep(this.assemble.getTicks() * 50);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -41,8 +40,6 @@ public class AssembleThread extends Thread {
         for (Player player : this.assemble.getPlugin().getServer().getOnlinePlayers()) {
             try {
                 AssembleBoard board = this.assemble.getBoards().get(player.getUniqueId());
-
-                // This shouldn't happen, but just in case.
                 if (board == null) {
                     continue;
                 }
@@ -54,18 +51,14 @@ public class AssembleThread extends Thread {
                     continue;
                 }
 
-                // Just make a variable so we don't have to
-                // process the same thing twice.
                 String title = ChatColor.translateAlternateColorCodes('&', this.assemble.getAdapter().getTitle(player));
 
-                // Update the title if needed.
                 if (!objective.getDisplayName().equals(title)) {
                     objective.setDisplayName(title);
                 }
 
                 List<String> newLines = this.assemble.getAdapter().getLines(player);
 
-                // Allow adapter to return null/empty list to display nothing.
                 if (newLines == null || newLines.isEmpty()) {
                     board.getEntries().forEach(AssembleBoardEntry::remove);
                     board.getEntries().clear();
@@ -74,7 +67,6 @@ public class AssembleThread extends Thread {
                         newLines = newLines.subList(0, 15);
                     }
 
-                    // Reverse the lines because scoreboard scores are in descending order.
                     if (!this.assemble.getAssembleStyle().isDescending()) {
                         Collections.reverse(newLines);
                     }
@@ -114,7 +106,7 @@ public class AssembleThread extends Thread {
                     }
                 }
 
-                if (player.getScoreboard() != scoreboard && !assemble.isHook()) {
+                if (player.getScoreboard() != scoreboard && !assemble.isHooked()) {
                     player.setScoreboard(scoreboard);
                 }
             } catch(Exception e) {

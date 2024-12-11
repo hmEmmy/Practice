@@ -2,7 +2,6 @@ package me.emmy.practice.kit;
 
 import lombok.Getter;
 import me.emmy.practice.Practice;
-import me.emmy.practice.config.ConfigHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -61,6 +60,6 @@ public class KitRepository {
         FileConfiguration config = Practice.getInstance().getConfigHandler().getKitsConfig();
 
         config.set("kits." + kitName.getName(), null);
-        Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("kits.yml"), config);
+        Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("storage/kits.yml"), config);
     }
 }

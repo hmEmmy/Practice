@@ -1,6 +1,8 @@
-package me.emmy.practice.api.assemble;
+package me.emmy.practice.api.assemble.listener;
 
 import lombok.Getter;
+import me.emmy.practice.api.assemble.Assemble;
+import me.emmy.practice.api.assemble.AssembleBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

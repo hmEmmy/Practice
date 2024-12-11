@@ -2,20 +2,18 @@ package me.emmy.practice.arena.command.impl.manage;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import me.emmy.practice.arena.Arena;
-import me.emmy.practice.arena.ArenaType;
+import me.emmy.practice.arena.enums.EnumArenaType;
 import me.emmy.practice.arena.impl.FreeForAllArena;
 import me.emmy.practice.arena.impl.SharedArena;
 import me.emmy.practice.arena.impl.StandAloneArena;
 import me.emmy.practice.arena.selection.ArenaSelection;
 import me.emmy.practice.util.CC;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * @author Remi
@@ -36,7 +34,7 @@ public class ArenaCreateCommand extends BaseCommand {
         }
 
         String arenaName = args[0];
-        ArenaType arenaType = Arrays.stream(ArenaType.values())
+        EnumArenaType arenaType = Arrays.stream(EnumArenaType.values())
                 .filter(type -> type.name().equalsIgnoreCase(args[1]))
                 .findFirst()
                 .orElse(null);

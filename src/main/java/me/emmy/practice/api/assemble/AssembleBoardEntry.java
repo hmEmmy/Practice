@@ -1,11 +1,11 @@
 package me.emmy.practice.api.assemble;
 
 import lombok.Setter;
+import me.emmy.practice.api.assemble.utility.AssembleUtil;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public class AssembleBoardEntry {
-
 	private final AssembleBoard board;
 
 	private Team team;
@@ -27,36 +27,27 @@ public class AssembleBoardEntry {
 		this.setup();
 	}
 
-	/**
-	 * Setup Board Entry.
-	 */
 	public void setup() {
 		final Scoreboard scoreboard = this.board.getScoreboard();
-
 		if (scoreboard == null) {
 			return;
 		}
 
 		String teamName = this.identifier;
 
-		// This shouldn't happen, but just in case.
 		if (teamName.length() > 16) {
 			teamName = teamName.substring(0, 16);
 		}
 
 		Team team = scoreboard.getTeam(teamName);
-
-		// Register the team if it does not exist.
 		if (team == null) {
 			team = scoreboard.registerNewTeam(teamName);
 		}
 
-		// Add the entry to the team.
 		if (!team.getEntries().contains(this.identifier)) {
 			team.addEntry(this.identifier);
 		}
 
-		// Add the entry if it does not exist.
 		if (!this.board.getEntries().contains(this)) {
 			this.board.getEntries().add(this);
 		}
@@ -70,21 +61,15 @@ public class AssembleBoardEntry {
 	 * @param position of entry.
 	 */
 	public void send(int position) {
-		// Set Prefix & Suffix.
-		String[] split = AssembleUtils.splitTeamText(text);
+		String[] split = AssembleUtil.splitTeamText(text);
 		this.team.setPrefix(split[0]);
 		this.team.setSuffix(split[1]);
 
-		// Set the score
 		this.board.getObjective().getScore(this.identifier).setScore(position);
 	}
 
-	/**
-	 * Remove Board Entry from Board.
-	 */
 	public void remove() {
 		this.board.getIdentifiers().remove(this.identifier);
 		this.board.getScoreboard().resetScores(this.identifier);
 	}
-
 }

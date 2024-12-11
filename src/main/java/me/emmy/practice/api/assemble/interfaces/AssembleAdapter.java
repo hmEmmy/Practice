@@ -1,4 +1,4 @@
-package me.emmy.practice.api.assemble;
+package me.emmy.practice.api.assemble.interfaces;
 
 import org.bukkit.entity.Player;
 

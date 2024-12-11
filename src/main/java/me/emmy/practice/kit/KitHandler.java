@@ -3,6 +3,7 @@ package me.emmy.practice.kit;
 import lombok.Getter;
 import me.emmy.practice.Practice;
 import me.emmy.practice.kit.enums.EnumKitType;
+import me.emmy.practice.kit.settings.KitSetting;
 import me.emmy.practice.util.CC;
 import me.emmy.practice.util.InventoryUtil;
 import org.bukkit.Bukkit;
@@ -57,8 +58,96 @@ public class KitHandler {
                 Bukkit.getConsoleSender().sendMessage(CC.translate("&cFailed to load kit " + kitName + " inventory."));
             }
 
+            this.loadKitSettings(this.config, kitName, kit);
+            this.addMissingKitSettings(this.config, kitName, kit);
             this.repository.addKit(kit);
+            this.addKitToQueue(kit);
         }
+    }
+
+    /**
+     * Method to load the settings of a kit.
+     *
+     * @param config The configuration file.
+     * @param key    The path key.
+     * @param kit    The kit.
+     */
+    private void loadKitSettings(FileConfiguration config, String key, Kit kit) {
+        ConfigurationSection settingsSection = config.getConfigurationSection(key + ".settings");
+        if (settingsSection == null) {
+            this.applyDefaultSettings(config, key, kit);
+            return;
+        }
+
+        for (String settingName : settingsSection.getKeys(false)) {
+            boolean enabled = config.getBoolean(key + ".settings." + settingName);
+
+            KitSetting kitSetting = Practice.getInstance().getKitSettingRepository().createSettingByName(settingName);
+            if (kitSetting != null) {
+                kitSetting.setEnabled(enabled);
+                kit.addKitSetting(kitSetting);
+            }
+        }
+    }
+
+    /**
+     * Handle creation in config for each kit that has missing settings.
+     *
+     * @param kit    The kit.
+     * @param config The configuration file.
+     * @param key    The path key.
+     */
+    private void addMissingKitSettings(FileConfiguration config, String key, Kit kit) {
+        Practice.getInstance().getKitSettingRepository().getSettings().forEach(setting -> {
+            if (kit.getKitSettings().stream().noneMatch(kitSetting -> kitSetting.getName().equals(setting.getName()))) {
+                kit.addKitSetting(setting);
+                Bukkit.getConsoleSender().sendMessage(CC.translate("&cAdded missing setting " + setting.getName() + " to kit " + kit.getName() + ". Now saving it into the kits config..."));
+                this.saveKitSettings(config, key, kit);
+            }
+        });
+    }
+
+    /**
+     * Method to apply the default settings to a kit.
+     *
+     * @param config The configuration file.
+     * @param key    The path key.
+     * @param kit    The kit.
+     */
+    public void applyDefaultSettings(FileConfiguration config, String key, Kit kit) {
+        Practice.getInstance().getKitSettingRepository().getSettings().forEach(setting -> {
+            kit.addKitSetting(setting);
+            config.set(key + ".settings." + setting.getName(), setting.isEnabled());
+        });
+
+        Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("storage/kits.yml"), config);
+    }
+
+    /**
+     * Method to save the settings of a kit.
+     *
+     * @param config The configuration file.
+     * @param key    The path key.
+     * @param kit    The kit.
+     */
+    private void saveKitSettings(FileConfiguration config, String key, Kit kit) {
+        for (KitSetting kitSetting : kit.getKitSettings()) {
+            config.set(key + ".settings." + kitSetting.getName(), kitSetting.isEnabled());
+        }
+    }
+
+    /**
+     * Method to add a kit to the queue.
+     *
+     * @param kit The kit to add.
+     */
+    private void addKitToQueue(Kit kit) {
+        if (!kit.isEnabled()) return;
+        //new Queue(kit, false);
+
+        //if (kit.isSettingEnabled(KitSettingRankedImpl.class)) {
+        //   new Queue(kit, true);
+        //}
     }
 
     /**
@@ -68,6 +157,7 @@ public class KitHandler {
      */
     public void createKit(String kitName) {
         Kit kit = new Kit(kitName);
+        Practice.getInstance().getKitSettingRepository().applyAllSettingsToKit(kit);
         this.repository.addKit(kit);
         this.saveKit(kit);
     }
@@ -88,7 +178,13 @@ public class KitHandler {
         this.config.set("kits." + kit.getName() + ".inventory", InventoryUtil.itemStackArrayToBase64(kit.getInventory()));
         this.config.set("kits." + kit.getName() + ".armor", InventoryUtil.itemStackArrayToBase64(kit.getArmor()));
 
-        Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("kits.yml"), this.config);
+        if (kit.getKitSettings() == null) {
+            this.applyDefaultSettings(config, "kits." + kit.getName(), kit);
+        } else {
+            this.saveKitSettings(config, "kits." + kit.getName(), kit);
+        }
+
+        Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("storage/kits.yml"), this.config);
     }
 
     public void saveKits() {

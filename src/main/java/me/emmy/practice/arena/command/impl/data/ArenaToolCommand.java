@@ -3,7 +3,7 @@ package me.emmy.practice.arena.command.impl.data;
 import me.emmy.practice.arena.selection.ArenaSelection;
 import me.emmy.practice.util.CC;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import org.bukkit.entity.Player;
 

@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Getter
 public class AssembleBoard {
-
 	private final Assemble assemble;
 
 	private final List<AssembleBoardEntry> entries = new ArrayList<>();
@@ -42,7 +41,7 @@ public class AssembleBoard {
 	 */
 	public Scoreboard getScoreboard() {
 		Player player = Bukkit.getPlayer(getUuid());
-		if (getAssemble().isHook() || player.getScoreboard() != Bukkit.getScoreboardManager().getMainScoreboard()) {
+		if (this.assemble.isHooked() || player.getScoreboard() != Bukkit.getScoreboardManager().getMainScoreboard()) {
 			return player.getScoreboard();
 		} else {
 			return Bukkit.getScoreboardManager().getNewScoreboard();
@@ -74,10 +73,9 @@ public class AssembleBoard {
 	private void setup(Player player) {
 		Scoreboard scoreboard = getScoreboard();
 		player.setScoreboard(scoreboard);
-		getObjective();
+		this.getObjective();
 
-		// Call Events if enabled.
-		if (assemble.isCallEvents()) {
+		if (this.assemble.isCallEvents()) {
 			AssembleBoardCreatedEvent createdEvent = new AssembleBoardCreatedEvent(this);
 			Bukkit.getPluginManager().callEvent(createdEvent);
 		}
@@ -106,12 +104,10 @@ public class AssembleBoard {
 			identifier = identifier + getRandomChatColor(position) + ChatColor.WHITE;
 		}
 
-		// This is rare, but just in case, make the method recursive
 		if (identifier.length() > 16) {
 			return this.getUniqueIdentifier(position);
 		}
 
-		// Add our identifier to the list so there are no duplicates
 		this.identifiers.add(identifier);
 
 		return identifier;
@@ -124,7 +120,6 @@ public class AssembleBoard {
 	 * @return ChatColor adjacent to position.
 	 */
 	private String getRandomChatColor(int position) {
-		return assemble.getChatColorCache()[position].toString();
+		return this.assemble.getChatColorCache()[position].toString();
 	}
-
 }

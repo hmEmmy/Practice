@@ -2,7 +2,7 @@ package me.emmy.practice.kit.command.impl.manage;
 
 import me.emmy.practice.Practice;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
 import me.emmy.practice.kit.Kit;
 import me.emmy.practice.kit.KitRepository;

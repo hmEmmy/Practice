@@ -2,6 +2,7 @@ package me.emmy.practice.arena;
 
 import lombok.Getter;
 import me.emmy.practice.Practice;
+import me.emmy.practice.arena.enums.EnumArenaType;
 import me.emmy.practice.arena.impl.FreeForAllArena;
 import me.emmy.practice.arena.impl.SharedArena;
 import me.emmy.practice.arena.impl.StandAloneArena;
@@ -43,7 +44,7 @@ public class ArenaHandler {
         for (String arenaName : configSection.getKeys(false)) {
             String name = "arenas." + arenaName;
 
-            ArenaType arenaType = ArenaType.valueOf(this.config.getString(name + ".type"));
+            EnumArenaType arenaType = EnumArenaType.valueOf(this.config.getString(name + ".type"));
             Location minimum = LocationUtil.deserialize(this.config.getString(name + ".minimum"));
             Location maximum = LocationUtil.deserialize(this.config.getString(name + ".maximum"));
 
@@ -97,8 +98,8 @@ public class ArenaHandler {
                 arena.setCenter(LocationUtil.deserialize(this.config.getString(name + ".center")));
             }
 
-            if (this.config.contains(name + ".displayName")) {
-                arena.setDisplayName(this.config.getString(name + ".displayName"));
+            if (this.config.contains(name + ".display-name")) {
+                arena.setDisplayName(this.config.getString(name + ".display-name"));
             }
 
             if (this.config.contains(name + ".enabled")) {
@@ -106,33 +107,6 @@ public class ArenaHandler {
             }
 
             this.repository.getArenas().add(arena);
-        }
-    }
-
-    /**
-     * Saves an arena to the arenas.yml file
-     *
-     * @param arena the arena to save
-     */
-    public void saveArena(Arena arena) {
-        String name = "arenas." + arena.getName();
-
-        this.config.set(name + ".type", arena.getType().name());
-        this.config.set(name + ".minimum", LocationUtil.serialize(arena.getMinimum()));
-        this.config.set(name + ".maximum", LocationUtil.serialize(arena.getMaximum()));
-        this.config.set(name + ".kits", arena.getKits());
-        this.config.set(name + ".pos1", LocationUtil.serialize(arena.getPos1()));
-        this.config.set(name + ".pos2", LocationUtil.serialize(arena.getPos2()));
-        this.config.set(name + ".center", LocationUtil.serialize(arena.getCenter()));
-        this.config.set(name + ".displayName", arena.getDisplayName());
-        this.config.set(name + ".enabled", arena.isEnabled());
-
-        Practice.getInstance().getConfigHandler().saveConfig(Practice.getInstance().getConfigHandler().getConfigFile("storage/arenas.yml"), this.config);
-    }
-
-    public void saveArenas() {
-        for (Arena arena : this.repository.getArenas()) {
-            this.saveArena(arena);
         }
     }
 }

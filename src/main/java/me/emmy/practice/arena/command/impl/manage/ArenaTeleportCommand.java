@@ -4,9 +4,9 @@ import me.emmy.practice.Practice;
 import me.emmy.practice.arena.Arena;
 import me.emmy.practice.util.CC;
 import me.emmy.practice.api.command.BaseCommand;
-import me.emmy.practice.api.command.Command;
+import me.emmy.practice.api.command.annotation.Command;
 import me.emmy.practice.api.command.CommandArgs;
-import me.emmy.practice.api.command.Completer;
+import me.emmy.practice.api.command.annotation.Completer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
